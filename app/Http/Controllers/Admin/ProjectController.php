@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\Type;
+use App\Models\Technology;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
@@ -35,7 +36,8 @@ class ProjectController extends Controller
     {
 
         $types = Type::all();
-        return view('create', compact('types'));
+        $technologies = Technology::all();
+        return view('create', compact('types', 'technologies'));
     }
 
     /**
@@ -60,6 +62,10 @@ class ProjectController extends Controller
         $new_project->fill($data);
         
         $new_project->save();
+
+        if ($request->has('technologies')) {
+            $project->technologies()->attach($form_data['technologies']);
+        }
 
         return redirect()->route('dashboard');
     }
@@ -92,7 +98,8 @@ class ProjectController extends Controller
         }
 
         $types = Type::all();
-        return view('edit', compact('project', 'types', 'error_message'));
+        $technologies = Technology::all();
+        return view('edit', compact('project', 'types', 'error_message', 'technologies'));
     }
 
     /**
@@ -116,6 +123,12 @@ class ProjectController extends Controller
         }
         
         $project->update($data);
+
+        if ($request->has('technologies')) {
+            $project->technologies()->sync($form_data['technologies']);
+        } else {
+            $project->technologies()->sync([]);
+        }
         
 
         return redirect()->route('admin.projects.show', $project->id);

@@ -39,6 +39,19 @@
                             @endforeach
                         </select>
 
+
+                        <label class="control-label text-white">Selezione tecnologia</label>
+                        <div class="my-3">
+                            @foreach ($technologies as $technology)
+                                <div class="form-check-inline">
+                                    <input type="checkbox" name="technologies[]" id="" class="form-check-input"
+                                        value="{{ $technology->id }}" @checked(is_array(old('technologies')) && in_array($technology->id, old('technologies')))>
+                                    <label for=""
+                                        class="fomr-check-label text-white">{{ $technology->name }}</label>
+                                </div>
+                            @endforeach
+                        </div>
+
                             <label for="end_date">Data di consena</label>
                             <input type="date" name="end_date" id="end_date" class="form-control mb-3">
                             @error('end_date')

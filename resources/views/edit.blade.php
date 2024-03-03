@@ -45,6 +45,27 @@
                         </select>
 
 
+                        <label class="control-label text-white">Selezione tecnologia</label>
+                        <div class="my-3">
+                            @foreach ($technologies as $technology)
+                                <div class="form-check-inline">
+                                    @if ($errors->any())
+                                        <input type="checkbox" name="technologies[]" id="" class="form-check-input"
+                                            value="{{ $technology->id }}"
+                                            {{ in_array($technology->id, old('technologies')) ? 'checked' : '' }}>
+                                    @else
+                                        <input type="checkbox" name="technologies[]" id="" class="form-check-input"
+                                            value="{{ $technology->id }}"
+                                            {{ $project->technologies->contains($technology->id) ? 'checked' : '' }}>
+                                    @endif
+
+                                    <label for=""
+                                        class="fomr-check-label text-white">{{ $technology->name }}</label>
+                                </div>
+                            @endforeach
+                        </div>
+
+
                             <label for="end_date">Data di consena</label>
                             <input type="date" name="end_date" id="end_date" class="form-control mb-3">
                             @error('end_date')

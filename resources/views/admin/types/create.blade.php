@@ -17,6 +17,19 @@
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
+
+                    <label class="control-label text-white">Selezione tecnologia</label>
+                        <div class="my-3">
+                            @foreach ($technologies as $technology)
+                                <div class="form-check-inline">
+                                    <input type="checkbox" name="technologies[]" id="" class="form-check-input"
+                                        value="{{ $technology->id }}" @checked(is_array(old('technologies')) && in_array($technology->id, old('technologies')))>
+                                    <label for=""
+                                        class="fomr-check-label text-white">{{ $technology->nome }}</label>
+                                </div>
+                            @endforeach
+                        </div>
+
                     <div class="form-group my-3">
                         <label for="descrizione" class="control-label text-white">Descrizione</label>
                         <textarea name="descrizione" id="descrizione" class="form-control @error('descrizione') is-invalid @enderror"
